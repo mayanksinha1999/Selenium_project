@@ -11,24 +11,27 @@ import pages.CheckoutStepTwo;
 import pages.Inventory;
 import pages.LoginPage;
 import utility.Constant;
+import utility.ExcelUtils;
 
 public class TestCase1 {
 	
 	private static WebDriver driver;
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws Exception {
 		
 		System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
 		driver =new ChromeDriver();
 		//WebDriver driver=new ChromeDriver();
 		driver.get(Constant.URL);
 		driver.manage().window().maximize();
+		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Sheet1" );
 		
 //		LoginPage.enterUsername(driver).sendKeys("standard_user");
 //		LoginPage.enterPassword(driver).sendKeys("secret_sauce");
 //		LoginPage.clickLogin(driver).click();
-		SignIn.Execute(driver, Constant.Username, Constant.Password);
+		SignIn.Execute(driver);
 		Thread.sleep(2000);
 		Inventory.addToCart(driver).click();
+		
 		
 		Cart.clickCart(driver).click();
 		Cart.checkout(driver).click();
@@ -52,6 +55,8 @@ public class TestCase1 {
 		//js.executeScript("window.scrollBy(0,-250)");
 		Constant.scrollUp(driver);
 		
+		
+		ExcelUtils.setCellData("Pass", 1, 3);
 
 	}
 }
